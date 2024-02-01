@@ -93,12 +93,12 @@ public class Practice extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
-        double defaultAxis = 0.71;
+        double defaultAxis = 0.75;
         double axisXPosition = defaultAxis;
-        double Rdefaultpos = 0.7;
-        double Ldefaultpos = 0.;
+        double Rdefaultpos = 0.5;
+        double Ldefaultpos = 0.5;
         int ARM_RAISED_POSITION = 290;
-        int ARM_DEFAULT_POSITION = 50;
+        int ARM_DEFAULT_POSITION = 2;
         int ARM_TARGET_POSITION = ARM_DEFAULT_POSITION;
 
         axisX.setPosition(defaultAxis);
@@ -185,14 +185,14 @@ public class Practice extends LinearOpMode {
 
             /*Claw Control*/
             if (gamepad1.left_trigger == 1.0) {
-                RightFinger.setPosition(Rdefaultpos - 0.4);
-                LeftFinger.setPosition(Ldefaultpos + 0.4);
+                RightFinger.setPosition(Rdefaultpos - 0.13);
+                LeftFinger.setPosition(Ldefaultpos + 0.13);
             }
             else if (gamepad1.left_bumper) {
-                LeftFinger.setPosition(Ldefaultpos + 0.4);
+                LeftFinger.setPosition(Ldefaultpos + 0.13);
             }
             else if (gamepad1.right_bumper) {
-                RightFinger.setPosition(Rdefaultpos - 0.4);
+                RightFinger.setPosition(Rdefaultpos - 0.13);
             }
             else {
                 RightFinger.setPosition(Rdefaultpos);
@@ -201,19 +201,23 @@ public class Practice extends LinearOpMode {
 
             /*Wrist Rotation*/
             if (gamepad1.dpad_right) {
-                axisY.setPosition(0.7);
+                axisY.setPosition(0.65);
             }
             if (gamepad1.dpad_left) {
                 axisY.setPosition(0.0);
             }
 
             if (gamepad1.dpad_up) {
-                axisXPosition += 0.001;
-                axisX.setPosition(axisXPosition);
+                if (axisXPosition > 0.08) {
+                    axisXPosition -= 0.0075;
+                    axisX.setPosition(axisXPosition);
+                }
             }
             else if (gamepad1.dpad_down) {
-                axisXPosition -= 0.001;
-                axisX.setPosition(axisXPosition);
+                if (axisXPosition < 0.97) {
+                    axisXPosition += 0.0075;
+                    axisX.setPosition(axisXPosition);
+                }
             }
             else if (gamepad1.b) {
                 axisXPosition = defaultAxis;
