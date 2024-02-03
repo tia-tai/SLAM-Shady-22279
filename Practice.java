@@ -36,11 +36,11 @@ public class Practice extends LinearOpMode {
     private DcMotorEx ArmLeft;
     private DcMotorEx ArmRight;
     private PIDController armPID;
-    private DcMotor FlyWheel;
     private Servo RightFinger;
     private Servo LeftFinger;
     private Servo axisY;
     private Servo axisX;
+    private Servo drone;
 
     @Override
     public void runOpMode() {
@@ -83,10 +83,8 @@ public class Practice extends LinearOpMode {
         axisX = hardwareMap.get(Servo.class, "AxisX");
 
         axisX.scaleRange(0.12, 0.75);
-
-        /* Fly Wheel Setup*/
-        FlyWheel = hardwareMap.get(DcMotor.class, "FlyWheel");
-        FlyWheel.setDirection(DcMotor.Direction.FORWARD);
+        
+        drone = hardwareMap.get(Servo.class, "Drone");
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -223,21 +221,22 @@ public class Practice extends LinearOpMode {
                 axisXPosition = defaultAxis;
                 axisX.setPosition(axisXPosition);
             }
-
-            /*Fly Wheel Control*/
-            FlyWheel.setPower(0);
+            
             if (gamepad1.a) {
-                FlyWheel.setPower(1);
+                drone.setPosition(0.0);
+            }
+            else {
+                drone.setPosition(0.25);
             }
 
             telemetry.addData("Status", "Running");
-            telemetry.addData("Servo Pos", axisX.getPosition());
+            telemetry.addData("Servo Pos", drone.getPosition());
             telemetry.addData("Arm Pos", ArmRight.getCurrentPosition());
-            telemetry.addData("Arm Pow", ArmRight.getPower());
-            telemetry.addData("Arm Pow2", armPower);
-            telemetry.addData("p", armPID.getP());
-            telemetry.addData("i", armPID.getI());
-            telemetry.addData("d", armPID.getD());
+            // telemetry.addData("Arm Pow", ArmRight.getPower());
+            // telemetry.addData("Arm Pow2", armPower);
+            // telemetry.addData("p", armPID.getP());
+            // telemetry.addData("i", armPID.getI());
+            // telemetry.addData("d", armPID.getD());
 
             telemetry.addLine();
             telemetry.addData("Controls", null);
